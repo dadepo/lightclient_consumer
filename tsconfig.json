@@ -18,7 +18,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-
+    "outDir": "./dist/",
     "esModuleInterop": true,
     "declaration": true,
     "declarationMap": true,

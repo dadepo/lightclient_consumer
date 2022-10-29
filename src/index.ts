@@ -1,9 +1,9 @@
 import {createLibp2p} from "libp2p";
-import {TCP} from '@libp2p/tcp'
-import {Mplex} from '@libp2p/mplex'
-import {Noise} from "@chainsafe/libp2p-noise";
-import {GossipSub} from "@chainsafe/libp2p-gossipsub";
-import {Bootstrap} from "@libp2p/bootstrap";
+import {tcp} from '@libp2p/tcp'
+import {mplex} from '@libp2p/mplex'
+import {noise} from "@chainsafe/libp2p-noise";
+import {gossipsub} from "@chainsafe/libp2p-gossipsub";
+import {bootstrap} from "@libp2p/bootstrap";
 
 
 const lodestarPeerid = process.argv[2];
@@ -18,10 +18,10 @@ const createLCNode = async () => {
         addresses: {
             listen: ['/ip4/0.0.0.0/tcp/0']
         },
-        transports: [new TCP()],
-        streamMuxers: [new Mplex()],
-        connectionEncryption: [new Noise()],
-        pubsub: new GossipSub({
+        transports: [tcp()],
+        streamMuxers: [mplex()],
+        connectionEncryption: [noise()],
+        pubsub: gossipsub({
             globalSignaturePolicy: "StrictNoSign",
             D: 8,
             Dlo: 6,
@@ -34,10 +34,7 @@ const createLCNode = async () => {
             seenTTL: 550 * 700,
             allowPublishToZeroPeers: true }),
         peerDiscovery: [
-            new Bootstrap({
-                interval: 10e3,
-                list: [lodestarPeerid]
-            })
+            bootstrap({list: [lodestarPeerid]})
         ]
     })
 
